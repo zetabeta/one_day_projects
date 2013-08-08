@@ -17,7 +17,7 @@ public class MockupData {
         this.tests = new ArrayList<Test>();
         Test t1 = new Test();
         t1.setId(1L);
-        t1.setIntgr(new Integer(4));
+        t1.setIntgr(new Integer(49));
         t1.setStr("foo");
         this.tests.add(t1);
         Test t2 = new Test();
@@ -25,6 +25,11 @@ public class MockupData {
         t2.setIntgr(new Integer(8));
         t2.setStr("foo2");
         this.tests.add(t2);
+        Test t3 = new Test();
+        t3.setId(3L);
+        t3.setIntgr(new Integer(999));
+        t3.setStr("yahookikilooooo");
+        this.tests.add(t3);
     }
 
     public List<Test> getTests() {

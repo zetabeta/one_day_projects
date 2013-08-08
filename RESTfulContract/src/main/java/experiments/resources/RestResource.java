@@ -10,10 +10,12 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import experiments.exceptions.NotSupportedException;
+import experiments.exceptions.QuerySyntaxException;
 
 /**
  * @author zlatka
@@ -30,6 +32,8 @@ public abstract class RestResource<T> {
     public abstract T updateResource(T resource) throws NotSupportedException;
 
     public abstract void deleteResource(Long resourceId) throws NotSupportedException;
+
+    public abstract Collection<T> getFilteredResources(String[] attributes, String[] values) throws NotSupportedException;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -66,4 +70,28 @@ public abstract class RestResource<T> {
         return Response.ok().build();
     }
 
+    @GET
+    @Path("exactmatch")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response filterResourcesBy(@QueryParam("attributes") String attributes, @QueryParam("values") String values)
+            throws NotSupportedException, QuerySyntaxException {
+
+        if (attributes == null && values == null) {
+            return Response.ok(getResources()).build();
+        } else if (attributes == null || values == null) {
+            throw new QuerySyntaxException();
+        } else if (attributes == "" || values == "") {
+            throw new QuerySyntaxException();
+        }
+
+        String[] attrs = attributes.split(",");
+        String[] vals = values.split(",");
+
+        if (attrs.length != vals.length) {
+            throw new QuerySyntaxException();
+        }
+
+        return Response.ok(getFilteredResources(attrs, vals)).build();
+
+    }
 }
