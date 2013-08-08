@@ -53,4 +53,16 @@ public class Test {
         }
     }
 
+    public static Test fromJson(String json) throws JsonException {
+        ObjectMapper mapper = new ObjectMapper();
+        Test test;
+        try {
+            test = mapper.readValue(json, Test.class);
+            return test;
+        } catch (Exception e) {
+            throw new JsonException();
+        }
+
+    }
+
 }

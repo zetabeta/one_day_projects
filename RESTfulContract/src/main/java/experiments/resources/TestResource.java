@@ -4,9 +4,8 @@ import java.util.List;
 
 import javax.ws.rs.Path;
 
-import org.codehaus.jackson.map.ObjectMapper;
-
 import experiments.MockupData;
+import experiments.exceptions.JsonException;
 import experiments.exceptions.NotSupportedException;
 import experiments.resources.dtos.Test;
 
@@ -15,7 +14,7 @@ import experiments.resources.dtos.Test;
  * 
  */
 @Path("test")
-public class TestResource extends RestResource {
+public class TestResource extends RestResource<Test> {
 
     @Override
     public List<Test> getResources() throws NotSupportedException {
@@ -29,40 +28,20 @@ public class TestResource extends RestResource {
     }
 
     @Override
-    public Test saveResource(String resource) throws NotSupportedException {
+    public Test saveResource(String resource) throws NotSupportedException, JsonException {
         MockupData md = new MockupData();
-        ObjectMapper mapper = new ObjectMapper();
-        Test test;
-
-        try {
-            test = mapper.readValue(resource, Test.class);
-            test = md.saveTest(test);
-            return test;
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-        }
-        return null;
+        Test test = md.saveTest(Test.fromJson(resource));
+        return test;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see experiments.resources.RestResource#updateResource(java.lang.String)
-     */
     @Override
-    public Object updateResource(String resource) throws NotSupportedException {
-        // TODO Auto-generated method stub
-        return null;
+    public Test updateResource(String resource) throws NotSupportedException {
+        throw new NotSupportedException();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see experiments.resources.RestResource#deleteResource(java.lang.Long)
-     */
     @Override
     public void deleteResource(Long resourceId) throws NotSupportedException {
-        // TODO Auto-generated method stub
-
+        throw new NotSupportedException();
     }
+
 }
