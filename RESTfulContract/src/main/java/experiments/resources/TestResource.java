@@ -5,7 +5,6 @@ import java.util.List;
 import javax.ws.rs.Path;
 
 import experiments.MockupData;
-import experiments.exceptions.JsonException;
 import experiments.exceptions.NotSupportedException;
 import experiments.resources.dtos.Test;
 
@@ -28,14 +27,14 @@ public class TestResource extends RestResource<Test> {
     }
 
     @Override
-    public Test saveResource(String resource) throws NotSupportedException, JsonException {
+    public Test saveResource(Test resource) throws NotSupportedException {
         MockupData md = new MockupData();
-        Test test = md.saveTest(Test.fromJson(resource));
+        Test test = md.saveTest(resource);
         return test;
     }
 
     @Override
-    public Test updateResource(String resource) throws NotSupportedException {
+    public Test updateResource(Test resource) throws NotSupportedException {
         throw new NotSupportedException();
     }
 

@@ -13,7 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import experiments.exceptions.JsonException;
 import experiments.exceptions.NotSupportedException;
 
 /**
@@ -26,9 +25,9 @@ public abstract class RestResource<T> {
 
     public abstract T getResource(Long resourceId) throws NotSupportedException;
 
-    public abstract T saveResource(String resource) throws NotSupportedException, JsonException;
+    public abstract T saveResource(T resource) throws NotSupportedException;
 
-    public abstract T updateResource(String resource) throws NotSupportedException, JsonException;
+    public abstract T updateResource(T resource) throws NotSupportedException;
 
     public abstract void deleteResource(Long resourceId) throws NotSupportedException;
 
@@ -48,14 +47,14 @@ public abstract class RestResource<T> {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response save(String resource) throws NotSupportedException, JsonException {
+    public Response save(T resource) throws NotSupportedException {
         return Response.ok(saveResource(resource)).build();
     }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response update(String resource) throws NotSupportedException, JsonException {
+    public Response update(T resource) throws NotSupportedException {
         return Response.ok(updateResource(resource)).build();
     }
 

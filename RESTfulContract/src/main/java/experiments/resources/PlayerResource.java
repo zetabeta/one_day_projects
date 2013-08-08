@@ -38,10 +38,10 @@ public class PlayerResource extends RestResource {
     /*
      * (non-Javadoc)
      * 
-     * @see experiments.resources.RestResource#saveResource(java.lang.String)
+     * @see experiments.resources.RestResource#saveResource(java.lang.Object)
      */
     @Override
-    public Object saveResource(String resource) throws NotSupportedException {
+    public Object saveResource(Object resource) throws NotSupportedException {
         // TODO Auto-generated method stub
         return null;
     }
@@ -49,10 +49,10 @@ public class PlayerResource extends RestResource {
     /*
      * (non-Javadoc)
      * 
-     * @see experiments.resources.RestResource#updateResource(java.lang.String)
+     * @see experiments.resources.RestResource#updateResource(java.lang.Object)
      */
     @Override
-    public Object updateResource(String resource) throws NotSupportedException {
+    public Object updateResource(Object resource) throws NotSupportedException {
         // TODO Auto-generated method stub
         return null;
     }
