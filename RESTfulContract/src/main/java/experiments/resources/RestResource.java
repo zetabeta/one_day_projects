@@ -1,6 +1,13 @@
 package experiments.resources;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -32,8 +39,6 @@ public abstract class RestResource<T> {
     public abstract T updateResource(T resource) throws NotSupportedException;
 
     public abstract void deleteResource(Long resourceId) throws NotSupportedException;
-
-    public abstract Collection<T> getFilteredResources(String[] attributes, String[] values) throws NotSupportedException;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -92,6 +97,37 @@ public abstract class RestResource<T> {
         }
 
         return Response.ok(getFilteredResources(attrs, vals)).build();
-
     }
+
+    public Collection<T> getFilteredResources(String[] attributes, String[] values) throws NotSupportedException {
+
+        List<T> result = new ArrayList<T>();
+        Map<Method, String> invocationMethods = new HashMap<Method, String>();
+        Class<T> type = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        for (Method m : type.getDeclaredMethods()) {
+            for (int i = 0; i < attributes.length; i++) {
+                if (m.getName().equalsIgnoreCase("get" + attributes[i])) {
+                    invocationMethods.put(m, values[i]);
+                }
+            }
+        }
+        for (T t : getResources()) {
+            for (Entry<Method, String> e : invocationMethods.entrySet()) {
+                Method method = e.getKey();
+                String value = e.getValue();
+                try {
+                    Class<?> returnType = method.getReturnType();
+                    Object o = method.invoke(t);
+                    if (returnType.cast(o).equals(returnType.getConstructor(String.class).newInstance(value))) {
+                        result.add(t);
+                    }
+                } catch (Exception e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        }
+        return result;
+    }
+
 }
