@@ -1,12 +1,9 @@
 package experiments.resources.dtos;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  * @author zlatka
  * 
  */
-@XmlRootElement
 public class Test {
 
     private Long id;
