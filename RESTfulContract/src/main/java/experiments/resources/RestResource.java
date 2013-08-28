@@ -99,6 +99,13 @@ public abstract class RestResource<T> {
         return Response.ok(getFilteredResources(attrs, vals)).build();
     }
 
+    @GET
+    @Path("{attribute}/{value}")
+    public Response filterByAttribute(@PathParam("attribute") String attribute, @PathParam("value") String value) {
+        // TODO implement this
+        return null;
+    }
+
     public Collection<T> getFilteredResources(String[] attributes, String[] values) throws NotSupportedException {
 
         List<T> result = new ArrayList<T>();
