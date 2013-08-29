@@ -2,9 +2,9 @@ package experiments.resources.base;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -105,7 +105,7 @@ public abstract class SimpleRestResource<T> {
     }
 
     public Collection<T> getFilteredResources(String[] attributes, String[] values) throws NotSupportedException {
-        List<T> result = new ArrayList<T>();
+        Set<T> result = new HashSet<T>();
         for (int i = 0; i < attributes.length; i++) {
             result.addAll(getFilteredResourcesWithExactMatch(attributes[i], values[i]));
         }
@@ -113,7 +113,8 @@ public abstract class SimpleRestResource<T> {
     }
 
     public Collection<T> getFilteredResourcesWithExactMatch(String attribute, String value) throws NotSupportedException {
-        List<T> result = new ArrayList<T>();
+        Set<T> result = new HashSet<T>();
+        Collection<T> allResources = getResources();
         Method method = null;
         Class<T> type = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         for (Method m : type.getDeclaredMethods()) {
@@ -122,7 +123,7 @@ public abstract class SimpleRestResource<T> {
             }
         }
         if (method != null) {
-            for (T t : getResources()) {
+            for (T t : allResources) {
                 try {
                     Class<?> returnType = method.getReturnType();
                     Object o = method.invoke(t);
