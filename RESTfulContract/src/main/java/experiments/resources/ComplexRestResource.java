@@ -23,15 +23,14 @@ public abstract class ComplexRestResource<T> {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllResources(@PathParam("baseResourceId") Long baseResourceId) throws NotSupportedException {
+    public Response getAllResources(@PathParam("id") Long baseResourceId) throws NotSupportedException {
         return Response.ok(getResources(baseResourceId)).build();
     }
 
     @GET
     @Path("{resourceId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response find(@PathParam("baseResourceId") Long baseResourceId, @PathParam("resourceId") Long resourceId)
-            throws NotSupportedException {
+    public Response find(@PathParam("id") Long baseResourceId, @PathParam("resourceId") Long resourceId) throws NotSupportedException {
         return Response.ok(getResource(baseResourceId, resourceId)).build();
     }
 

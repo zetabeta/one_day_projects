@@ -115,7 +115,6 @@ public abstract class RestResource<T> {
     private Collection<T> getFilteredResourcesWithExactMatch(String attribute, String value) throws NotSupportedException {
         List<T> result = new ArrayList<T>();
         Method method = null;
-
         Class<T> type = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         for (Method m : type.getDeclaredMethods()) {
             if (m.getName().equalsIgnoreCase("get" + attribute)) {

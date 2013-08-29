@@ -14,7 +14,7 @@ import experiments.resources.dtos.SubTest;
  * @author zlatka
  * 
  */
-@Path("/test/{baseResourceId}/subtest")
+@Path("/test/{id}/subtest")
 public class SubtestResource extends ComplexRestResource<SubTest> {
 
     @Override
