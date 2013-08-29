@@ -1,4 +1,4 @@
-package experiments.resources;
+package experiments.resources.examples;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import javax.ws.rs.Path;
 
 import experiments.MockupData;
 import experiments.exceptions.NotSupportedException;
+import experiments.resources.base.SimpleRestResource;
 import experiments.resources.dtos.Test;
 
 /**
@@ -13,7 +14,7 @@ import experiments.resources.dtos.Test;
  * 
  */
 @Path("test")
-public class TestResource extends RestResource<Test> {
+public class TestResource extends SimpleRestResource<Test> {
 
     @Override
     public List<Test> getResources() throws NotSupportedException {
@@ -42,4 +43,5 @@ public class TestResource extends RestResource<Test> {
     public void deleteResource(Long resourceId) throws NotSupportedException {
         throw new NotSupportedException();
     }
+
 }

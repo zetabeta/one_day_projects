@@ -1,4 +1,4 @@
-package experiments.resources;
+package experiments.resources.base;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -25,7 +25,7 @@ import experiments.exceptions.QuerySyntaxException;
  * @author zlatka
  * 
  */
-public abstract class RestResource<T> {
+public abstract class SimpleRestResource<T> {
 
     public abstract Collection<T> getResources() throws NotSupportedException;
 
@@ -112,7 +112,7 @@ public abstract class RestResource<T> {
         return result;
     }
 
-    private Collection<T> getFilteredResourcesWithExactMatch(String attribute, String value) throws NotSupportedException {
+    public Collection<T> getFilteredResourcesWithExactMatch(String attribute, String value) throws NotSupportedException {
         List<T> result = new ArrayList<T>();
         Method method = null;
         Class<T> type = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];

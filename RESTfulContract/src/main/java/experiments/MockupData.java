@@ -93,4 +93,13 @@ public class MockupData {
         return t;
     }
 
+    public SubTest saveSubTest(SubTest t, Long testId) {
+        t = new SubTest();
+        t.setId(888L);
+        t.setContent("brand new subtest");
+        t.setTestId(testId);
+        this.subtests.add(t);
+        return t;
+    }
+
 }
