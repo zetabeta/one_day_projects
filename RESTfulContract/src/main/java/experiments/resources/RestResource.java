@@ -4,10 +4,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -101,36 +98,40 @@ public abstract class RestResource<T> {
 
     @GET
     @Path("{attribute}/{value}")
-    public Response filterByAttribute(@PathParam("attribute") String attribute, @PathParam("value") String value) {
-        // TODO implement this
-        return null;
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response filterByAttribute(@PathParam("attribute") String attribute, @PathParam("value") String value)
+            throws NotSupportedException {
+        return Response.ok(getFilteredResourcesWithExactMatch(attribute, value)).build();
     }
 
     public Collection<T> getFilteredResources(String[] attributes, String[] values) throws NotSupportedException {
-
         List<T> result = new ArrayList<T>();
-        Map<Method, String> invocationMethods = new HashMap<Method, String>();
+        for (int i = 0; i < attributes.length; i++) {
+            result.addAll(getFilteredResourcesWithExactMatch(attributes[i], values[i]));
+        }
+        return result;
+    }
+
+    private Collection<T> getFilteredResourcesWithExactMatch(String attribute, String value) throws NotSupportedException {
+        List<T> result = new ArrayList<T>();
+        Method method = null;
+
         Class<T> type = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         for (Method m : type.getDeclaredMethods()) {
-            for (int i = 0; i < attributes.length; i++) {
-                if (m.getName().equalsIgnoreCase("get" + attributes[i])) {
-                    invocationMethods.put(m, values[i]);
-                }
+            if (m.getName().equalsIgnoreCase("get" + attribute)) {
+                method = m;
             }
         }
-        for (T t : getResources()) {
-            for (Entry<Method, String> e : invocationMethods.entrySet()) {
-                Method method = e.getKey();
-                String value = e.getValue();
+        if (method != null) {
+            for (T t : getResources()) {
                 try {
                     Class<?> returnType = method.getReturnType();
                     Object o = method.invoke(t);
                     if (returnType.cast(o).equals(returnType.getConstructor(String.class).newInstance(value))) {
                         result.add(t);
                     }
-                } catch (Exception e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                } catch (Exception e) {
+                    // TODO log and show exception
                 }
             }
         }
