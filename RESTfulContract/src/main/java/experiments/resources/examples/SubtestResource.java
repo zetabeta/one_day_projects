@@ -12,6 +12,9 @@ import experiments.resources.base.DependentRestResource;
 import experiments.resources.dtos.SubTest;
 
 /**
+ * 
+ * Experimental resource for dependent REST resource.
+ * 
  * @author zlatka
  * 
  */

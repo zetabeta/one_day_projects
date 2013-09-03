@@ -1,10 +1,12 @@
 package experiments.resources.dtos;
 
 /**
+ * Test DTO for composite key REST resource.
+ * 
  * @author zlatka
  * 
  */
-public class ComplexKeyTest {
+public class CompositeKeyTest {
 
     private Long key1;
     private Long key2;

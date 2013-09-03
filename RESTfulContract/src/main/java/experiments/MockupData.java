@@ -7,6 +7,8 @@ import experiments.resources.dtos.SubTest;
 import experiments.resources.dtos.Test;
 
 /**
+ * Creates mockup data for experimenting and testing
+ * 
  * @author zlatka
  * 
  */

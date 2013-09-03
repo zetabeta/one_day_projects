@@ -28,7 +28,8 @@ import experiments.exceptions.QuerySyntaxException;
  * Starting point for the most basic REST resource defining the paths for all
  * CRUD operations and filters. This abstract resource is suitable for simple
  * resources, uniquely identified by their IDs, such as
- * interface_url/resource/{resourceId}.
+ * interface_url/resource/{resourceId}. The path of the simple resources should
+ * be: interface_url/resource_name
  * 
  * @author zlatka
  * 

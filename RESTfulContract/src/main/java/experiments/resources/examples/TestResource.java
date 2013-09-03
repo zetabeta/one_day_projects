@@ -11,6 +11,8 @@ import experiments.resources.base.SimpleRestResource;
 import experiments.resources.dtos.Test;
 
 /**
+ * Experimental resource for simple REST resource.
+ * 
  * @author zlatka
  * 
  */

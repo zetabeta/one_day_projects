@@ -1,6 +1,8 @@
 package experiments.resources.dtos;
 
 /**
+ * Test DTO for dependent REST resource.
+ * 
  * @author zlatka
  * 
  */

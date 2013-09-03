@@ -16,10 +16,17 @@ import javax.ws.rs.core.Response;
 import experiments.exceptions.NotSupportedException;
 
 /**
+ * Defines REST resource which key is composite. For example the resource
+ * "character" may be uniquely defined by two components - "server" and
+ * "account". Thus, server id is the first and account id the second key
+ * necessary to uniquely identify the "character" resource. The path of the
+ * composite key resource should be:
+ * interface_url/key_resource_1/{key1}//key_resource_2/{key2}/resource
+ * 
  * @author zlatka
  * 
  */
-public abstract class ComplexKeyRestResource<T> {
+public abstract class CompositeKeyRestResource<T> {
 
     public abstract Collection<T> getResources(Long firstKeyId, Long secondKeyId) throws NotSupportedException;
 
@@ -68,5 +75,7 @@ public abstract class ComplexKeyRestResource<T> {
         deleteResource(firstKeyId, secondKeyId, resourceId);
         return Response.ok().build();
     }
+
+    // TODO filters
 
 }

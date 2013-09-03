@@ -16,11 +16,29 @@ import javax.ws.rs.core.Response;
 import experiments.exceptions.NotSupportedException;
 
 /**
+ * Defines REST resource which is dependent on other REST resource. For example,
+ * "ban" resource does not make sense without the corresponding "account"
+ * resource. The dependent REST resource is the one of interest and all queries
+ * assume that the base resource id is known. The path of the dependent
+ * resources should be:
+ * interface_url/baseresource_name/{id}/dependentresource_name
+ * 
  * @author zlatka
  * 
  */
 public abstract class DependentRestResource<T> {
 
+    /**
+     * Collects all dependent resources from given type for specified base
+     * resource. For example, all transactions for given player.
+     * 
+     * @param baseResourceId
+     *            the id of the base resource
+     * @return a collection with all dependent resources of the base resource
+     * @throws NotSupportedException
+     *             thrown in case the operation is not supported or should not
+     *             be available for the given resource
+     */
     public abstract Collection<T> getResources(Long baseResourceId) throws NotSupportedException;
 
     public abstract T getResource(Long baseResourceId, Long resourceId) throws NotSupportedException;
