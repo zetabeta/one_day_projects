@@ -5,6 +5,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import experiments.exceptions.JsonException;
 
 /**
+ * Utility for JSON object manipulations.
+ * 
  * @author zlatka
  * 
  */

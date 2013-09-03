@@ -21,7 +21,7 @@ import experiments.exceptions.NotSupportedException;
  * "account". Thus, server id is the first and account id the second key
  * necessary to uniquely identify the "character" resource. The path of the
  * composite key resource should be:
- * interface_url/key_resource_1/{key1}//key_resource_2/{key2}/resource
+ * key_resource_1/{key1}//key_resource_2/{key2}/resource
  * 
  * @author zlatka
  * 

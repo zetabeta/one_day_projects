@@ -20,8 +20,7 @@ import experiments.exceptions.NotSupportedException;
  * "ban" resource does not make sense without the corresponding "account"
  * resource. The dependent REST resource is the one of interest and all queries
  * assume that the base resource id is known. The path of the dependent
- * resources should be:
- * interface_url/baseresource_name/{id}/dependentresource_name
+ * resources should be: baseresource_name/{id}/dependentresource_name
  * 
  * @author zlatka
  * 
@@ -33,7 +32,7 @@ public abstract class DependentRestResource<T> {
      * resource. For example, all transactions for given player.
      * 
      * @param baseResourceId
-     *            the id of the base resource
+     *            the ID of the base resource
      * @return a collection with all dependent resources of the base resource
      * @throws NotSupportedException
      *             thrown in case the operation is not supported or should not
@@ -41,12 +40,62 @@ public abstract class DependentRestResource<T> {
      */
     public abstract Collection<T> getResources(Long baseResourceId) throws NotSupportedException;
 
+    /**
+     * Retrieves specific dependent resource. For example, ban with specific id
+     * for given player.
+     * 
+     * @param baseResourceId
+     *            the base resource ID
+     * @param resourceId
+     *            the dependent resource id
+     * @return the dependent resource
+     * @throws NotSupportedException
+     *             thrown in case the operation is not supported or should not
+     *             be available for the given resource
+     */
     public abstract T getResource(Long baseResourceId, Long resourceId) throws NotSupportedException;
 
+    /**
+     * Saves new instance of a dependent resource for given base resource. For
+     * example, saves new ban or transaction for given player.
+     * 
+     * @param baseResourceId
+     *            the base resource ID
+     * @param resource
+     *            the new dependent resource to be saved
+     * @return the saved dependent resource
+     * @throws NotSupportedException
+     *             thrown in case the operation is not supported or should not
+     *             be available for the given resource
+     */
     public abstract T saveResource(Long baseResourceId, T resource) throws NotSupportedException;
 
+    /**
+     * Updates existing dependent resource for given base resource. For example,
+     * sets the ban_expire_date of existing ban for given player to a new value.
+     * 
+     * @param baseResourceId
+     *            the base resource ID
+     * @param resource
+     *            the dependent resource with new attribute values set
+     * @return the updated dependent resource
+     * @throws NotSupportedException
+     *             thrown in case the operation is not supported or should not
+     *             be available for the given resource
+     */
     public abstract T updateResource(Long baseResourceId, T resource) throws NotSupportedException;
 
+    /**
+     * Deletes existing dependent resource for given base resource.
+     * 
+     * @param baseResourceId
+     *            the base resource ID
+     * @param resourceId
+     *            the dependent resource ID
+     * @throws NotSupportedException
+     *             thrown in case the operation is not supported or should not
+     *             be available for the given resource
+     */
     public abstract void deleteResource(Long baseResourceId, Long resourceId) throws NotSupportedException;
 
     @GET
