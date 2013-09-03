@@ -18,6 +18,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import experiments.exceptions.NotSupportedException;
 import experiments.exceptions.QuerySyntaxException;
 
@@ -36,6 +39,10 @@ public abstract class SimpleRestResource<T> {
     public abstract T updateResource(T resource) throws NotSupportedException;
 
     public abstract void deleteResource(Long resourceId) throws NotSupportedException;
+
+    public abstract Collection<T> getFilteredResourcesLike(String attribute, String value) throws NotSupportedException;
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(SimpleRestResource.class);
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -73,7 +80,23 @@ public abstract class SimpleRestResource<T> {
     }
 
     @GET
-    @Path("exactmatch")
+    @Path("like")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response filterByAttributeLike(@QueryParam("attribute") String attribute, @QueryParam("value") String value)
+            throws NotSupportedException {
+        return Response.ok(getFilteredResourcesLike(attribute, value)).build();
+    }
+
+    @GET
+    @Path("{attribute}/{value}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response filterByAttribute(@PathParam("attribute") String attribute, @PathParam("value") String value)
+            throws NotSupportedException {
+        return Response.ok(getFilteredResourcesWithExactMatch(attribute, value)).build();
+    }
+
+    @GET
+    @Path("find")
     @Produces(MediaType.APPLICATION_JSON)
     public Response filterResourcesBy(@QueryParam("attributes") String attributes, @QueryParam("values") String values)
             throws NotSupportedException, QuerySyntaxException {
@@ -96,14 +119,6 @@ public abstract class SimpleRestResource<T> {
         return Response.ok(getFilteredResources(attrs, vals)).build();
     }
 
-    @GET
-    @Path("{attribute}/{value}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response filterByAttribute(@PathParam("attribute") String attribute, @PathParam("value") String value)
-            throws NotSupportedException {
-        return Response.ok(getFilteredResourcesWithExactMatch(attribute, value)).build();
-    }
-
     public Collection<T> getFilteredResources(String[] attributes, String[] values) throws NotSupportedException {
         Set<T> result = new HashSet<T>();
         for (int i = 0; i < attributes.length; i++) {
@@ -112,6 +127,7 @@ public abstract class SimpleRestResource<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public Collection<T> getFilteredResourcesWithExactMatch(String attribute, String value) throws NotSupportedException {
         Set<T> result = new HashSet<T>();
         Collection<T> allResources = getResources();
@@ -131,7 +147,7 @@ public abstract class SimpleRestResource<T> {
                         result.add(t);
                     }
                 } catch (Exception e) {
-                    // TODO log and show exception
+                    LOGGER.error("An exception occurred while trying to filter resource ", e);
                 }
             }
         }

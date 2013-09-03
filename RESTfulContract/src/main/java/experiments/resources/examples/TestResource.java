@@ -1,5 +1,6 @@
 package experiments.resources.examples;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.Path;
@@ -41,6 +42,11 @@ public class TestResource extends SimpleRestResource<Test> {
 
     @Override
     public void deleteResource(Long resourceId) throws NotSupportedException {
+        throw new NotSupportedException();
+    }
+
+    @Override
+    public Collection<Test> getFilteredResourcesLike(String attribute, String value) throws NotSupportedException {
         throw new NotSupportedException();
     }
 
