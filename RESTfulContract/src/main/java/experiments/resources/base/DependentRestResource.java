@@ -65,7 +65,4 @@ public abstract class DependentRestResource<T> {
         deleteResource(baseResourceId, resourceId);
         return Response.ok().build();
     }
-
-    // TODO filters
-
 }
