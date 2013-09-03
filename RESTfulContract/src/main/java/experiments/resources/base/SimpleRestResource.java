@@ -197,6 +197,22 @@ public abstract class SimpleRestResource<T> {
         return Response.ok().build();
     }
 
+    /**
+     * GET <website_url>/<resource_name>/like?attribute=<attribute_name>&value=<
+     * attribute_value> searches for resources from given type with attribute
+     * that contains given value. Example:
+     * website/player/like?attribute=email&value=bar retrieves all players which
+     * email contains the string "bar".
+     * 
+     * @param attribute
+     *            the attribute name (the name of the searched property)
+     * @param value
+     *            the searched string to be contained in the attribute value
+     * @return HTTP response OK 200 with all resources of the given type
+     *         complying with the search criteria as a JSON collection
+     * @throws NotSupportedException
+     *             thrown in case the operation is not supported
+     */
     @GET
     @Path("like")
     @Produces(MediaType.APPLICATION_JSON)
@@ -205,6 +221,21 @@ public abstract class SimpleRestResource<T> {
         return Response.ok(getFilteredResourcesLike(attribute, value)).build();
     }
 
+    /**
+     * GET <website_url>/<resource_name>/<attribute_name>/<attribute_value>
+     * searches for resources from given type with attributes that exactly match
+     * given value. Example: website/player/email/zombie.power%40gmail.com
+     * retrieves all players which email is equal to "zombie.power@gmail.com".
+     * 
+     * @param attribute
+     *            the attribute name (the name of the searched property)
+     * @param value
+     *            the searched string to exactly match the value of the property
+     * @return HTTP response OK 200 with all resources of the given type
+     *         complying with the search criteria as a JSON collection
+     * @throws NotSupportedException
+     *             thrown in case the operation is not supported
+     */
     @GET
     @Path("{attribute}/{value}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -213,6 +244,29 @@ public abstract class SimpleRestResource<T> {
         return Response.ok(getFilteredResourcesWithExactMatch(attribute, value)).build();
     }
 
+    /**
+     * GET
+     * <website_url>/<resource_name>/find?attributes=<attr_1>,<attr_2>&values
+     * =<value_1>,<value_2> searches for resources from the given type, exactly
+     * matching one of the given criteria (attr_1=value_1 or attr_2=value_2).
+     * For example:
+     * website/player/find?attributes=username,email&values=bar,zombie
+     * .power%40gmail.com retrieves all the player resources, having either
+     * username equel to bar or email equal to zombie.power@gmail.com . Note,
+     * that the logical operator is "OR", not "AND"! In case of no attributes
+     * and values defined, all resources from the given type are returned.
+     * 
+     * @param attributes
+     *            comma separated list of attribute names
+     * @param values
+     *            coma separated list of attribute values
+     * @return HTTP response OK 200 with all resources of the given type
+     *         complying with the search criteria as a JSON collection
+     * @throws NotSupportedException
+     *             thrown in case the operation is not supported
+     * @throws QuerySyntaxException
+     *             in case the query parameters were not properly defined
+     */
     @GET
     @Path("find")
     @Produces(MediaType.APPLICATION_JSON)
@@ -237,6 +291,24 @@ public abstract class SimpleRestResource<T> {
         return Response.ok(getFilteredResources(attrs, vals)).build();
     }
 
+    /**
+     * Retrieves resources from the given type exactly matching the given
+     * criteria. Since it uses the
+     * {@link #getFilteredResourcesWithExactMatch(String, String)} method, to be
+     * used only with small collections of resources. When the list of resources
+     * from this type is huge, the best way is to override
+     * {@link #getFilteredResourcesWithExactMatch(String, String)} method to
+     * escape performance issues.
+     * 
+     * @param attributes
+     *            the searched property names
+     * @param values
+     *            the values of the properties for search
+     * @return collection of the resources found matching at least one of the
+     *         specified criteria
+     * @throws NotSupportedException
+     *             thrown in case the operation is not supported
+     */
     public Collection<T> getFilteredResources(String[] attributes, String[] values) throws NotSupportedException {
         Set<T> result = new HashSet<T>();
         for (int i = 0; i < attributes.length; i++) {
@@ -245,6 +317,20 @@ public abstract class SimpleRestResource<T> {
         return result;
     }
 
+    /**
+     * Retrieves resources from the given type exactly matching given criterion.
+     * To be used only with small collections of resources. When the list of
+     * resources from this type is huge, the best way is to override this method
+     * to escape performance issues.
+     * 
+     * @param attribute
+     *            the name of the property for the search
+     * @param value
+     *            the exact matching value of the search
+     * @return collection of the resources found
+     * @throws NotSupportedException
+     *             thrown in case the operation is not supported
+     */
     @SuppressWarnings("unchecked")
     public Collection<T> getFilteredResourcesWithExactMatch(String attribute, String value) throws NotSupportedException {
         Set<T> result = new HashSet<T>();
