@@ -1,8 +1,7 @@
-<div class="header">
+<div class="header" ng-controller="MenuCtrl">
   <ul class="nav nav-pills pull-right">
-    <li class="active"><a ng-href="#">Home</a></li>
-    <li><a ng-href="#">About</a></li>
-    <li><a ng-href="#">Contact</a></li>
+    <li class="active" ng-hide="isLoggedIn()"><button  data-toggle="modal" data-target="#loginModal">Login</button></li>
+    <li class="active" ng-show="isLoggedIn()"><a ng-href="#">Logout</a></li>
   </ul>
   <h3 class="text-muted">sparta</h3>
 </div>
@@ -18,19 +17,37 @@
 
 <div class="row marketing">
   <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
 
   <h4>Angular</h4>
   <p>
     AngularJS is a toolset for building the framework most suited to your application development.
   </p>
 
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
 </div>
 
 <div class="footer">
   <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true" ng-controller="LoginCtrl">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="loginLabel">login</h4>
+      </div>
+      <form>
+        <div class="modal-body">
+          <label>Username: </label> <input ng-model="username" />
+          <br />
+          <label>Password: </label> <input ng-model="password" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+          <button type="button" class="btn btn-primary" ng-submit="login()">log in now</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
