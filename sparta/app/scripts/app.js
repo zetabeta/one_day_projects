@@ -5,7 +5,8 @@ angular
     'ngCookies',
     'ngResource',
     'ngSanitize',
-    'ngRoute'
+    'ngRoute',
+    'ui.calendar'
   ])
   .config(function ($routeProvider) {
     $routeProvider
