@@ -1,0 +1,22 @@
+{ "sports": 
+  [ 
+    { 
+      "name": "tennis"
+    }, 
+    {
+      "name": "crossfit"
+    },
+    {
+      "name": "basketball"
+    },
+    {
+      "name": "stretching"
+    },
+    {
+      "name": "yoga"
+    },
+    {
+      "name": "swimming"
+    }
+  ]
+}

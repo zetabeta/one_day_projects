@@ -1,13 +1,10 @@
 'use strict';
 
-function ClndrCtrl($scope) {
+function ClndrCtrl($scope, $http) {
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
-    
-    $scope.changeTo = 'Hungarian';
-    /* event source that pulls from google.com */
 
     /* event source that contains custom events on the scope */
     $scope.events = [
@@ -64,10 +61,10 @@ function ClndrCtrl($scope) {
     /* add custom event*/
     $scope.addEvent = function() {
       $scope.events.push({
-        title: $scope.newEventName,
-        start: new Date(y, m, 28),
-        end: new Date(y, m, 29),
-        className: ['openSesame']
+        title: $scope.sport.name,
+        start: new Date(y, m, d),
+        end: new Date(y, m, d),
+        className: ['']
       });
     };
     /* remove event */
@@ -82,6 +79,18 @@ function ClndrCtrl($scope) {
     $scope.renderCalender = function(calendar) {
       calendar.fullCalendar('render');
     };
+
+
+    $scope.sports= 
+      [ 
+        {  
+          name: 'tennis'
+        }, 
+        {
+          name: 'crossfit'
+        }
+      ];
+
     /* config object */
     $scope.uiConfig = {
       calendar:{
@@ -98,17 +107,7 @@ function ClndrCtrl($scope) {
       }
     };
 
-    $scope.changeLang = function() {
-      if($scope.changeTo === 'Hungarian'){
-        $scope.uiConfig.calendar.dayNames = ['Vasárnap', 'Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat'];
-        $scope.uiConfig.calendar.dayNamesShort = ['Vas', 'Hét', 'Kedd', 'Sze', 'Csüt', 'Pén', 'Szo'];
-        $scope.changeTo= 'English';
-      } else {
-        $scope.uiConfig.calendar.dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        $scope.uiConfig.calendar.dayNamesShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        $scope.changeTo = 'Hungarian';
-      }
-    };
+    
 
     /* event sources array*/
     $scope.eventSources = [$scope.events, $scope.eventsF];
