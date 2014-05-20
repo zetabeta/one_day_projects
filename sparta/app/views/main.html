@@ -9,13 +9,17 @@
   <h3 class="text-muted">sparta</h3>
 </div>
 
-<div class="jumbotron">
+<div class="jumbotron" ng-controller="ClndrCtrl">
   <h1>Greetings, fighter!</h1>
   <br/><br/><br/>
   <p class="lead">
     <div ui-calendar ng-model="eventSources"></div>
   </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
+  <p>
+    Name: 
+    <input type="text" ng-model="newEventName"> </input>
+    <a class="btn btn-lg btn-success" ng-click="addEvent()">Splendid!<span class="glyphicon glyphicon-ok"></span></a>
+  </p>
 </div>
 
 <div class="footer">

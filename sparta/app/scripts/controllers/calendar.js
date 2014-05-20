@@ -1,6 +1,6 @@
 'use strict';
 
-function CalendarCtrl($scope) {
+function ClndrCtrl($scope) {
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
@@ -8,11 +8,7 @@ function CalendarCtrl($scope) {
     
     $scope.changeTo = 'Hungarian';
     /* event source that pulls from google.com */
-    $scope.eventSource = {
-            url: 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic',
-            className: 'gcal-event',           // an option!
-            currentTimezone: 'America/Chicago' // an option!
-    };
+
     /* event source that contains custom events on the scope */
     $scope.events = [
       {title: 'All Day Event',start: new Date(y, m, 1)},
@@ -68,7 +64,7 @@ function CalendarCtrl($scope) {
     /* add custom event*/
     $scope.addEvent = function() {
       $scope.events.push({
-        title: 'Open Sesame',
+        title: $scope.newEventName,
         start: new Date(y, m, 28),
         end: new Date(y, m, 29),
         className: ['openSesame']
@@ -113,7 +109,8 @@ function CalendarCtrl($scope) {
         $scope.changeTo = 'Hungarian';
       }
     };
+
     /* event sources array*/
-    $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
+    $scope.eventSources = [$scope.events, $scope.eventsF];
     $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
 }
